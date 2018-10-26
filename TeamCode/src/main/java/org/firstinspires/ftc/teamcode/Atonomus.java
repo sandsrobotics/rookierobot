@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
 
-public class SixWheelArm extends LinearOpMode {
+public class SixWheelArm {
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
     private DistanceSensor sensorColorRange = null;
@@ -44,25 +44,14 @@ public class SixWheelArm extends LinearOpMode {
         double tgtPower = 0;
         double tgtPower2 = 0;
         double tgtPower3 = 0;
-        while (opModeIsActive()) {
+        while(AutonomousModeActive) ;
+        {
 
             tgtPower = this.gamepad1.left_stick_y;
             leftMotor.setPower(tgtPower);
             tgtPower2 = -this.gamepad1.right_stick_y;
             rightMotor.setPower(tgtPower2);
 
-            telemetry.addData("Target Power", tgtPower);
-            telemetry.addData("Left Motor Power", leftMotor.getPower());
-            telemetry.addData("Status", "Running");
-            telemetry.addData("Target Power2", tgtPower2);
-            telemetry.addData("Right Motor Power", rightMotor.getPower());
-            telemetry.addData("Status", "Running");
-            telemetry.addData("Shoulder Servo port 1", shoulderServo.getPosition());
-            telemetry.addData("Elbow servo port 2", elbowServo.getPosition());
-            telemetry.addData("Claw servo port 4", clawServo.getPosition());
-            telemetry.addData("wrist servo port ", wristServo.getPosition());
-            //telemetry.addData("Distance (cm)", sensorColorRange.getDistance(DistanceUnit.CM));
-            telemetry.update();
 
             // if (digitalTouch.getState() == false) {
             //       telemetry.addData("Button", "PRESSED");
@@ -74,40 +63,6 @@ public class SixWheelArm extends LinearOpMode {
             if (gamepad1.x) {
                 shoulderServo.setPosition(shoulderServo.getPosition() + 0.03f);
             }
-            if (gamepad1.b) {
-                shoulderServo.setPosition(shoulderServo.getPosition() - 0.03f);
-            }
-
-            // Raise arm at arm joint "elbow
-            if (gamepad1.right_bumper) {
-                elbowServo.setPosition(elbowServo.getPosition()+0.01);
-            } else if (gamepad1.left_bumper) {
-                elbowServo.setPosition(elbowServo.getPosition()-0.01);
-            }
-
-            // Open and close claw
-            if (gamepad1.right_stick_button) {
-                clawServo.setPosition(clawServo.getPosition()+0.01);
-
-            } else if (gamepad1.left_stick_button) {
-                clawServo.setPosition(clawServo.getPosition()-0.01);
-
-                // dunk the wrist bro
-                if (gamepad1.a) {
-                    wristServo.setPosition(wristServo.getPosition()+0.01);
-
-                } else if (gamepad1.y) {
-                    wristServo.setPosition(wristServo.getPosition()-0.01);
-                    // lift up and down
-                    if (gamepad1.b) {
-                        leftMotor.setPower(1);
-
-                    } else if (gamepad1.x) {
-                        leftMotor.setPower(-1);
-
-
-                    }
         }
     }
 }
-    } }
