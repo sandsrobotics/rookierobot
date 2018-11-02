@@ -100,10 +100,10 @@ public class SixWheelArm extends LinearOpMode {
                     wristServo.setPosition(wristServo.getPosition()-0.01);
                     // lift up and down
                     if (gamepad1.b) {
-                        leftMotor.setPower(1);
+                        lifter.setPower(1);
 
                     } else if (gamepad1.x) {
-                        leftMotor.setPower(-1);
+                        lifter.setPower(-1);
 
 
                     }
