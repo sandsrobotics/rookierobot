@@ -52,8 +52,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwareTest
-{
+public class HardwareTest {
     /* Public OpMode members. */
     public DcMotor leftMotor;
     private DigitalChannel digitalTouch;
@@ -64,16 +63,16 @@ public class HardwareTest
     public Servo wristServo;
     public DcMotor rightMotor;
     public DcMotor lifter;
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    public static final double MID_SERVO = 0.5;
+    public static final double ARM_UP_POWER = 0.45;
+    public static final double ARM_DOWN_POWER = -0.45;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap = null;
+    private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwareTest(){
+    public HardwareTest() {
 
     }
 
@@ -83,9 +82,9 @@ public class HardwareTest
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor  = hwMap.get(DcMotor.class, "left_drive");
-        rightMotor = hwMap.get(DcMotor.class, "right_drive");
-        lifter    = hwMap.get(DcMotor.class, "left_arm");
+        leftMotor = hwMap.get(DcMotor.class, "leftMotor");
+        rightMotor = hwMap.get(DcMotor.class, "rightMotor");
+        lifter = hwMap.get(DcMotor.class, "lifter");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -101,10 +100,11 @@ public class HardwareTest
         lifter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        elbowServo  = hwMap.get(Servo.class, "left_hand");
-        wristServo = hwMap.get(Servo.class, "right_hand");
-        elbowServo.setPosition(MID_SERVO);
-        wristServo.setPosition(MID_SERVO);
+        elbowServo = hwMap.get(Servo.class, "elbowservo");
+        wristServo = hwMap.get(Servo.class, "wristservo");
+        //elbowServo.setPosition(MID_SERVO);
+        //wristServo.setPosition(MID_SERVO);
     }
- }
+}
+
 

@@ -24,6 +24,9 @@ public class SixWheelArm extends LinearOpMode {
     private Servo wristServo;
     private DcMotor rightMotor;
     private DcMotor lifter;
+    private ColorSensor sensorColor;
+    private DistanceSensor sensorDistance;
+
 
     @Override
     public void runOpMode() {
@@ -34,6 +37,8 @@ public class SixWheelArm extends LinearOpMode {
         elbowServo = hardwareMap.get(Servo.class, "elbowservo");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
         lifter = hardwareMap.get(DcMotor.class, "lifter");
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
         //digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
@@ -61,7 +66,11 @@ public class SixWheelArm extends LinearOpMode {
             telemetry.addData("Elbow servo port 2", elbowServo.getPosition());
             telemetry.addData("Claw servo port 4", clawServo.getPosition());
             telemetry.addData("wrist servo port ", wristServo.getPosition());
-            //telemetry.addData("Distance (cm)", sensorColorRange.getDistance(DistanceUnit.CM));
+            telemetry.addData("Distance (cm)", sensorColorRange.getDistance(DistanceUnit.CM));
+            telemetry.addData("Alpha", sensorColor.alpha());
+            telemetry.addData("Red  ", sensorColor.red());
+            telemetry.addData("Green", sensorColor.green());
+            telemetry.addData("Blue ", sensorColor.blue());
             telemetry.update();
 
             // if (digitalTouch.getState() == false) {
@@ -99,10 +108,10 @@ public class SixWheelArm extends LinearOpMode {
                 } else if (gamepad1.y) {
                     wristServo.setPosition(wristServo.getPosition()-0.01);
                     // lift up and down
-                    if (gamepad1.b) {
+                    if (gamepad1.right_trigger == 1) {
                         lifter.setPower(1);
 
-                    } else if (gamepad1.x) {
+                    } else if (gamepad1.left_trigger == 1) {
                         lifter.setPower(-1);
 
 
