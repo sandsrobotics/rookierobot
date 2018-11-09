@@ -25,11 +25,11 @@ public class SixWheelArm extends LinearOpMode {
     private DcMotor rightMotor;
     private DcMotor lifter;
     private ColorSensor sensorColor;
-    private DistanceSensor sensorDistance;
+
 
 
     @Override
-    public void runOpMode() {
+    public void runOpMode(){
         leftMotor = hardwareMap.get(DcMotor.class, "leftmotor");
         rightMotor = hardwareMap.get(DcMotor.class, "rightmotor");
         shoulderServo = hardwareMap.get(Servo.class, "shoulderservo");
@@ -38,7 +38,7 @@ public class SixWheelArm extends LinearOpMode {
         clawServo = hardwareMap.get(Servo.class, "clawservo");
         lifter = hardwareMap.get(DcMotor.class, "lifter");
         sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
+        sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
         //digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
@@ -89,34 +89,34 @@ public class SixWheelArm extends LinearOpMode {
 
             // Raise arm at arm joint "elbow
             if (gamepad1.right_bumper) {
-                elbowServo.setPosition(elbowServo.getPosition()+0.01);
+                elbowServo.setPosition(elbowServo.getPosition() + 0.01);
             } else if (gamepad1.left_bumper) {
-                elbowServo.setPosition(elbowServo.getPosition()-0.01);
+                elbowServo.setPosition(elbowServo.getPosition() - 0.01);
             }
 
             // Open and close claw
             if (gamepad1.right_stick_button) {
-                clawServo.setPosition(clawServo.getPosition()+0.01);
+                clawServo.setPosition(clawServo.getPosition() + 0.01);
 
             } else if (gamepad1.left_stick_button) {
-                clawServo.setPosition(clawServo.getPosition()-0.01);
-
-                // dunk the wrist bro
-                if (gamepad1.a) {
-                    wristServo.setPosition(wristServo.getPosition()+0.01);
-
-                } else if (gamepad1.y) {
-                    wristServo.setPosition(wristServo.getPosition()-0.01);
-                    // lift up and down
-                    if (gamepad1.right_trigger == 1) {
-                        lifter.setPower(1);
-
-                    } else if (gamepad1.left_trigger == 1) {
-                        lifter.setPower(-1);
-
-
-                    }
+                clawServo.setPosition(clawServo.getPosition() - 0.01);
+            }
+            // dunk the wrist bro
+            if (gamepad1.a) {
+                wristServo.setPosition(wristServo.getPosition() + 0.01);
+            } else if (gamepad1.y) {
+                wristServo.setPosition(wristServo.getPosition() - 0.01);
+                // lift up and down
+            }
+            if (gamepad1.right_trigger == 1) {
+                lifter.setPower(1);
+            } else if (gamepad1.left_trigger == 1) {
+                lifter.setPower(-1);
+            }
+                if (gamepad1.dpad_up){
+                 lifter.setPower(0);
+            }
         }
     }
 }
-    } }
+
