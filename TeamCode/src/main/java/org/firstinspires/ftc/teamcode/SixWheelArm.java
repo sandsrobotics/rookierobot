@@ -27,9 +27,8 @@ public class SixWheelArm extends LinearOpMode {
     private ColorSensor sensorColor;
 
 
-
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         leftMotor = hardwareMap.get(DcMotor.class, "leftmotor");
         rightMotor = hardwareMap.get(DcMotor.class, "rightmotor");
         shoulderServo = hardwareMap.get(Servo.class, "shoulderservo");
@@ -51,10 +50,6 @@ public class SixWheelArm extends LinearOpMode {
         double tgtPower3 = 0;
         while (opModeIsActive()) {
 
-            tgtPower = this.gamepad1.left_stick_y;
-            leftMotor.setPower(tgtPower);
-            tgtPower2 = -this.gamepad1.right_stick_y;
-            rightMotor.setPower(tgtPower2);
 
             telemetry.addData("Target Power", tgtPower);
             telemetry.addData("Left Motor Power", leftMotor.getPower());
@@ -78,45 +73,55 @@ public class SixWheelArm extends LinearOpMode {
             // } else {
             //    telemetry.addData("Button", "NOT PRESSED");
 
-
+// controler 1
             // Raise arm at robot base "shoulder"
-            if (gamepad1.x) {
+            if (gamepad1.right_stick_y > 1 ){
                 shoulderServo.setPosition(shoulderServo.getPosition() + 0.03f);
             }
-            if (gamepad1.b) {
+            if (gamepad1.right_stick_y > -1 ) {
                 shoulderServo.setPosition(shoulderServo.getPosition() - 0.03f);
             }
 
-            // Raise arm at arm joint "elbow
-            if (gamepad1.right_bumper) {
+            // Raise arm at arm joint elbow
+            if (gamepad1.dpad_left) {
                 elbowServo.setPosition(elbowServo.getPosition() + 0.01);
-            } else if (gamepad1.left_bumper) {
+            } else if (gamepad1.dpad_right) {
                 elbowServo.setPosition(elbowServo.getPosition() - 0.01);
             }
 
             // Open and close claw
-            if (gamepad1.right_stick_button) {
+            if (gamepad1.dpad_up) {
                 clawServo.setPosition(clawServo.getPosition() + 0.01);
 
-            } else if (gamepad1.left_stick_button) {
+            } else if (gamepad1.dpad_down) {
                 clawServo.setPosition(clawServo.getPosition() - 0.01);
             }
+
             // dunk the wrist bro
-            if (gamepad1.a) {
+            if (gamepad1.x) {
                 wristServo.setPosition(wristServo.getPosition() + 0.01);
             } else if (gamepad1.y) {
                 wristServo.setPosition(wristServo.getPosition() - 0.01);
-                // lift up and down
             }
-            if (gamepad1.right_trigger == 1) {
-                lifter.setPower(1);
-            } else if (gamepad1.left_trigger == 1) {
-                lifter.setPower(-1);
+
+
+// controler 2
+            //driving
+            tgtPower = this.gamepad2.left_stick_y;
+            leftMotor.setPower(tgtPower);
+            tgtPower2 = -this.gamepad2.right_stick_y;
+            rightMotor.setPower(tgtPower2);
+
+            // lift up and down
+            if (gamepad2.right_trigger == 1) {
+                lifter.setPower(.75);
+            } else if (gamepad2.left_trigger == 1) {
+                lifter.setPower(-.75);
             }
-                if (gamepad1.dpad_up){
-                 lifter.setPower(0);
+            if (gamepad2.dpad_up) {
+                lifter.setPower(0);
             }
         }
     }
-}
 
+}
