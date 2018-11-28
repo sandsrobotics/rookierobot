@@ -19,7 +19,7 @@ public class SixWheelArm extends LinearOpMode {
     private DigitalChannel digitalTouch;
     private DistanceSensor sensorColorRange = null;
     private Servo elbowServo;
-    private Servo shoulderServo;
+    private CRServo shoulderServo;
     private Servo clawServo;
     private Servo wristServo;
     private DcMotor rightMotor;
@@ -31,7 +31,7 @@ public class SixWheelArm extends LinearOpMode {
     public void runOpMode() {
         leftMotor = hardwareMap.get(DcMotor.class, "leftmotor");
         rightMotor = hardwareMap.get(DcMotor.class, "rightmotor");
-        shoulderServo = hardwareMap.get(Servo.class, "shoulderservo");
+        shoulderServo = hardwareMap.get(CRServo.class, "shoulderservo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         elbowServo = hardwareMap.get(Servo.class, "elbowservo");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
@@ -57,7 +57,7 @@ public class SixWheelArm extends LinearOpMode {
             telemetry.addData("Target Power2", tgtPower2);
             telemetry.addData("Right Motor Power", rightMotor.getPower());
             telemetry.addData("Status", "Running");
-            telemetry.addData("Shoulder Servo port 1", shoulderServo.getPosition());
+            telemetry.addData("Shoulder Servo port 1", shoulderServo.getPower());
             telemetry.addData("Elbow servo port 2", elbowServo.getPosition());
             telemetry.addData("Claw servo port 4", clawServo.getPosition());
             telemetry.addData("wrist servo port ", wristServo.getPosition());
@@ -75,12 +75,14 @@ public class SixWheelArm extends LinearOpMode {
 
 // controler 1
             // Raise arm at robot base "shoulder"
-            if (gamepad1.right_stick_y > 1 ){
-                shoulderServo.setPosition(shoulderServo.getPosition() + 0.03f);
+            if (gamepad1.a ){
+                shoulderServo.setPower( 0.5);
             }
-            if (gamepad1.right_stick_y > -1 ) {
-                shoulderServo.setPosition(shoulderServo.getPosition() - 0.03f);
+            if (gamepad1.b ) {
+                shoulderServo.setPower(-0.5);
             }
+            if (!gamepad1.a && !gamepad1.b)
+                shoulderServo.setPower(0);
 
             // Raise arm at arm joint elbow
             if (gamepad1.dpad_left) {
