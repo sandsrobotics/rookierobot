@@ -115,15 +115,15 @@ public class SixWheelArm extends LinearOpMode {
             rightMotor.setPower(tgtPower2);
 
             // lift up and down
-            if (gamepad2.right_trigger == 1) {
-                lifter.setPower(.75);
-            } else if (gamepad2.left_trigger == 1) {
-                lifter.setPower(-.75);
+            if (gamepad1.right_trigger == 1 ){
+                lifter.setPower( 0.5);
             }
-            if (gamepad2.dpad_up) {
+            if (gamepad1.left_trigger == 1 ) {
+                lifter.setPower(-0.5);
+            }
+            if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0)
                 lifter.setPower(0);
             }
         }
     }
 
-}
