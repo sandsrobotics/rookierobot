@@ -26,6 +26,8 @@ public class SixWheelArm extends LinearOpMode {
     private DcMotor lifter;
     private ColorSensor sensorColor;
     private DcMotor shoulderServo;
+    private CRServo clawServo2;
+
 
 
 
@@ -41,6 +43,8 @@ public class SixWheelArm extends LinearOpMode {
         sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
         sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
         shoulderServo =  hardwareMap.get(DcMotor.class, "sholderServo");
+        clawServo2 = hardwareMap.get(CRServo.class, "clawServo2");
+
         //digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
@@ -96,11 +100,25 @@ public class SixWheelArm extends LinearOpMode {
             }
 
             // Open and close claw
-            if (gamepad1.dpad_up) {
+            if (gamepad1.right_trigger == 1) {
                 clawServo.setPosition(clawServo.getPosition() + 0.02);
 
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1. right_trigger == 1) {
                 clawServo.setPosition(clawServo.getPosition() - 0.02);
+
+            } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0  ) {
+            clawServo.setPosition(0);
+            }
+
+            // Open and close claw2
+            if (gamepad1.right_trigger == 1) {
+                clawServo2.setPower(1);
+
+            } else if (gamepad1.left_trigger == 1) {
+                clawServo2.setPower(-1);
+
+            } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0  ) {
+                clawServo2.setPower(0);
             }
 
             // dunk the wrist bro
