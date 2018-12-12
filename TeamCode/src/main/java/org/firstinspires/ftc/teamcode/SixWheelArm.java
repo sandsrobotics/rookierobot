@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.*;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-// gives the robot info on your stuff ;)
+// gives the robot info on hardware
 
 @TeleOp
 
@@ -94,9 +94,9 @@ public class SixWheelArm extends LinearOpMode {
 
             // Raise arm at arm joint elbow
             if (gamepad1.x) {
-                elbowServo.setPosition(elbowServo.getPosition() + 0.01);
+                elbowServo.setPosition(elbowServo.getPosition() + 0.05);
             } else if (gamepad1.y) {
-                elbowServo.setPosition(elbowServo.getPosition() - 0.01);
+                elbowServo.setPosition(elbowServo.getPosition() - 0.05);
             }
 
             // Open and close claw

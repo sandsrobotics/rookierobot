@@ -68,11 +68,11 @@ public class Camera extends LinearOpMode {
      * random data. As an example, here is a example of a fragment of a valid key:
      *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
      * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
+     * and paste it in to your code on the next line,between the double quotes.
      */
     private static final String VUFORIA_KEY = "Af6s/L//////AAABmRhSfCy6B0HFrA+rWBwSOjOLybbnvggOtNv1qQcKzWQeehDdLo7Rp/PjEsmQEkAVVG65fkwcLBXyAMdGzOGCTIdZ/s0Qo0Y50Iz2mYmayUvmTu4jhJSiRpcr6dLCg9guNe7awzfAxX2Bwb9A3V9vW0T+EUPsEWci5tUeosyli1keHgxcT3IaQvs0217TPzfty3lQKKBitm1jhzf7dh0vPBMdZRT91M6+cQQzBNA9NXxxCMjl9ZwXA6mTzLO43fO7Gg2HOanGfhAJytyZD+DeuGtzJWQxjuRydRIsNxpsbUAS5HmVaA9zWyaE3UU2AuEOzOobMEcm+jZs8Ha/tAKwwAZJcn9fEpHChSBtPmJQ2h1E\n";
 
-    /**
+    /*
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */

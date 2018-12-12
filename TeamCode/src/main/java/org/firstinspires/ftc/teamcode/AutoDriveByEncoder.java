@@ -109,10 +109,7 @@ public class AutoDriveByEncoder extends LinearOpMode {
         waitForStart();
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);   // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-        encoderDrive (DRIVE_SPEED, 5, 5, 2.0);    // S4: Forward 5 Inches with 2 Sec timeout
+        encoderDrive(DRIVE_SPEED,  47,  47, 5.0);   // S1: Forward 47 Inches with 5 Sec timeout
 
 
         telemetry.addData("Path", "Complete");
@@ -132,17 +129,18 @@ public class AutoDriveByEncoder extends LinearOpMode {
                              double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
-
+        int newDropTarget;
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+//            newDropTarget = robot.DropMotor.getCurrentPosition() + (int)(newDropTarget * COUNTS_PER_INCH);
 
             robot.leftMotor.setTargetPosition(newLeftTarget);
             robot.rightMotor.setTargetPosition(newRightTarget);
-
+//            robot.newDropTarget.setTargetPosition(newDropTarget);
             // Turn On RUN_TO_POSITION
             robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
