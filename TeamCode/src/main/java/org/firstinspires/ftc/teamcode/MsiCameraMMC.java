@@ -55,7 +55,10 @@ public abstract class MsiCameraMMC extends LinearOpMode{
      */
     private TFObjectDetector tfod;
 
-    public void FindGoald() {
+    public int FindGoald() {
+        int goldMineralX = -1;
+        int silverMineral1X = -1;
+        int silverMineral2X = -1;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -76,9 +79,7 @@ public abstract class MsiCameraMMC extends LinearOpMode{
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         if (updatedRecognitions.size() == 3) {
-                            int goldMineralX = -1;
-                            int silverMineral1X = -1;
-                            int silverMineral2X = -1;
+
                             for (Recognition recognition : updatedRecognitions) {
                                 if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                     goldMineralX = (int) recognition.getLeft();
@@ -101,6 +102,7 @@ public abstract class MsiCameraMMC extends LinearOpMode{
         if (tfod != null) {
             tfod.shutdown();
         }
+        return goldMineralX;
     }
 
     /**

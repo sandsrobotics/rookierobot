@@ -145,6 +145,7 @@ public class Camera extends LinearOpMode {
 
         if (tfod != null) {
             tfod.shutdown();
+            return;
         }
     }
 
