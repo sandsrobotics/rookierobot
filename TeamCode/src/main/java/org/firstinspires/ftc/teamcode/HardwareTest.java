@@ -29,6 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -55,21 +58,25 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareTest {
     /* Public OpMode members. */
     public DcMotor leftMotor;
-    private DigitalChannel digitalTouch;
-    private DistanceSensor sensorColorRange = null;
-    public Servo elbowServo;
-    private Servo shoulderServo;
-    private Servo clawServo;
+    public DigitalChannel digitalTouch;
+    public DistanceSensor sensorColorRange = null;
+    //private CRServo elbowServo;
+    public CRServo elbowServo;
+    public Servo clawServo;
     public Servo wristServo;
     public DcMotor rightMotor;
     public DcMotor lifter;
+    public ColorSensor sensorColor;
+    public DcMotor shoulderServo;
+    public CRServo clawServo2;
+    public AnalogInput AngleSensor;
     public static final double MID_SERVO = 0.5;
     public static final double ARM_UP_POWER = 0.45;
     public static final double ARM_DOWN_POWER = -0.45;
     public DcMotor DropMotor;
     /* local OpMode members. */
     HardwareMap hwMap = null;
-    private ElapsedTime period = new ElapsedTime();
+    public ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
     public HardwareTest() {
@@ -100,7 +107,7 @@ public class HardwareTest {
         lifter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        elbowServo = hwMap.get(Servo.class, "elbowservo");
+        elbowServo = hwMap.get(CRServo.class, "elbowservo");
         wristServo = hwMap.get(Servo.class, "wristservo");
         //elbowServo.setPosition(MID_SERVO);
         //wristServo.setPosition(MID_SERVO);

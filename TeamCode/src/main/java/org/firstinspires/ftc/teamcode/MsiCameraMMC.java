@@ -24,10 +24,12 @@ import java.util.List;
  * is explained below.
  */
 
-public abstract class MsiCameraMMC extends LinearOpMode{
+public class MsiCameraMMC extends LinearOpMode{
+    public void runOpMode() {}
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -55,7 +57,7 @@ public abstract class MsiCameraMMC extends LinearOpMode{
      */
     private TFObjectDetector tfod;
 
-    public int FindGoald() {
+    public int FindGold() {
         int goldMineralX = -1;
         int silverMineral1X = -1;
         int silverMineral2X = -1;

@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @TeleOp // this makes the robot controlled by a controller
 
 public class SixWheelArm extends LinearOpMode {   // addition of the hardware's software
+
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
     private DistanceSensor sensorColorRange = null;

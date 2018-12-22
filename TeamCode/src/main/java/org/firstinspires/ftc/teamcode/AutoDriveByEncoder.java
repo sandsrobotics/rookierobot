@@ -67,8 +67,10 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 //@Disabled
 public class AutoDriveByEncoder extends LinearOpMode {
 
+
     /* Declare OpMode members. */
-    HardwareTest         robot   = new HardwareTest();   // Use a Pushbot's hardware
+    HardwareTest robot   = new HardwareTest();   // Use a Pushbot's hardware
+    MsiCameraMMC camera  = new MsiCameraMMC();
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
@@ -78,9 +80,11 @@ public class AutoDriveByEncoder extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
+    double MT = 1 ;
 
     @Override
     public void runOpMode() {
+
 
         /*
          * Initialize the drive system variables.
@@ -98,6 +102,7 @@ public class AutoDriveByEncoder extends LinearOpMode {
 
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.lifter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
@@ -105,18 +110,32 @@ public class AutoDriveByEncoder extends LinearOpMode {
                 robot.rightMotor.getCurrentPosition());
         telemetry.update();
 
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+
+        MT = camera.FindGold();
+
+        robot.lifter.setTargetPosition(4000);
+        robot.lifter.setPower(.5);
+        encoderDrive(DRIVE_SPEED, 6, 6, 5);
+        //\\//\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);   // S1: Forward 47 Inches with 5 Sec timeout
 
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-
-        encoderDrive (DRIVE_SPEED, 5, 5, 2.0);    // S4: Forward 5 Inches with 2 Sec timeout
-
+        if (MT == 1)          {
+            encoderDrive(TURN_SPEED, 1, -1, 5);
+            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+        }
+            else if (MT == 2) {
+            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+        }
+            else if (MT == 3) {
+            encoderDrive(TURN_SPEED, -1, 1, 5);
+            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+        }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -130,6 +149,8 @@ public class AutoDriveByEncoder extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
+
+
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
@@ -182,7 +203,9 @@ public class AutoDriveByEncoder extends LinearOpMode {
             robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
+            // camera
+            while (MT > -1)
+            telemetry.addData("camera", MT);
         }
     }
 }

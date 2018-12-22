@@ -127,7 +127,7 @@ public class new_test extends LinearOpMode {   // addition of the hardware's sof
 
                 sticky = sticky + (gamepad1.right_stick_x)/1000;
                 if (sticky > 1)
-                    sticky = 1 ;
+                    sticky = 1;
                 if (sticky < 0)
                     sticky = 0;
 
