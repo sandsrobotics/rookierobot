@@ -32,10 +32,10 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
     @Override
     public void runOpMode() {
-        leftMotor = hardwareMap.get(DcMotor.class, "leftmotor");
-        rightMotor = hardwareMap.get(DcMotor.class, "rightmotor");
-        elbowServo = hardwareMap.get(CRServo.class, "elbowServo");
-        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+        rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
+        elbowServo = hardwareMap.get(CRServo.class, "elbowservo");
+        wristServo = hardwareMap.get(Servo.class, "wristservo");
         //elbowServo = hardwareMap.get(Servo.class, "elbowservo");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
         lifter = hardwareMap.get(DcMotor.class, "lifter");
@@ -92,11 +92,13 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
                 if (gamepad1.a) {
                     shoulderServo.setPower(.5);
                 }
+
                 if (digitalTouch.getState() == false)
                     shoulder = 1;
                 else if (gamepad1.b) {
                     shoulderServo.setPower(-.5);
                 }
+
                 if (!gamepad1.a && !gamepad1.b)
                     shoulderServo.setPower(0);
 
@@ -113,7 +115,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
                 if (gamepad1.right_trigger == 1) {
                     clawServo.setPosition(clawServo.getPosition() + 0.02);
 
-                } else if (gamepad1.right_trigger == 1) {
+                } else if (gamepad1.left_trigger == 1) {
                     clawServo.setPosition(clawServo.getPosition() - 0.02);
 
                 } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
