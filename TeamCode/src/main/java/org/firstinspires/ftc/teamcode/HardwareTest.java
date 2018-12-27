@@ -59,7 +59,7 @@ public class HardwareTest {
     /* Public OpMode members. */
     public DcMotor leftMotor;
     public DigitalChannel digitalTouch;
-    public DistanceSensor sensorColorRange = null;
+    //public DistanceSensor sensorColorRange = null;
     //private CRServo elbowServo;
     public CRServo elbowServo;
     public Servo clawServo;
@@ -75,7 +75,7 @@ public class HardwareTest {
     public static final double ARM_DOWN_POWER = -0.45;
     public DcMotor DropMotor;
     /* local OpMode members. */
-    HardwareMap hwMap = null;
+    //HardwareMap hwMap = null;
     public ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
@@ -86,12 +86,12 @@ public class HardwareTest {
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
-        hwMap = ahwMap;
+        //hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor = hwMap.get(DcMotor.class, "leftMotor");
-        rightMotor = hwMap.get(DcMotor.class, "rightMotor");
-        lifter = hwMap.get(DcMotor.class, "lifter");
+        leftMotor = ahwMap.get(DcMotor.class, "leftMotor");
+        rightMotor = ahwMap.get(DcMotor.class, "rightMotor");
+        lifter = ahwMap.get(DcMotor.class, "lifter");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -107,8 +107,8 @@ public class HardwareTest {
         lifter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        elbowServo = hwMap.get(CRServo.class, "elbowservo");
-        wristServo = hwMap.get(Servo.class, "wristservo");
+        elbowServo = ahwMap.get(CRServo.class, "elbowservo");
+        wristServo = ahwMap.get(Servo.class, "wristservo");
         //elbowServo.setPosition(MID_SERVO);
         //wristServo.setPosition(MID_SERVO);
     }

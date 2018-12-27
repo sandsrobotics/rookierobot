@@ -18,6 +18,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
+    private DigitalChannel digitalTouch2;
     private DistanceSensor sensorColorRange = null;
     //private CRServo elbowServo;
     private CRServo elbowServo;
@@ -45,6 +46,8 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         clawServo2 = hardwareMap.get(CRServo.class, "clawServo2");
         digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        digitalTouch2 = hardwareMap.get(DigitalChannel.class, "digitalTouch2");
+        digitalTouch2.setMode(DigitalChannel.Mode.INPUT);
         AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
 
@@ -54,8 +57,10 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         double tgtPower2 = 0;
         double tgtPower3 = 0;
         double NewIdea = 0;
-        double shoulder =1;
+        double shoulder = 1;
         double Angle = 0;
+        int T = 0;
+        double TT = 0;
         while (opModeIsActive()) {
 
             Angle = (AngleSensor.getVoltage()) * 81; // change if you change voltige D/V (270 / 3.33)
@@ -71,7 +76,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             telemetry.addData("Claw servo port 4", clawServo.getPosition());
             telemetry.addData("wrist servo port ", wristServo.getPosition());
             telemetry.addData("volts", AngleSensor.getVoltage());
-            telemetry.addData("Angle",Angle);
+            telemetry.addData("Angle", Angle);
             //telemetry.addData("Distance (cm)", sensorColorRange.getDistance(DistanceUnit.CM));
             //telemetry.addData("Alpha", sensorColor.alpha());
             //telemetry.addData("Red  ", sensorColor.red());
@@ -81,89 +86,124 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
             telemetry.update();
 
-            if (digitalTouch.getState() == false) {
+            if (!digitalTouch.getState()) {
                 telemetry.addData("Button", "PRESSED");
             } else {
                 telemetry.addData("Button", "NOT PRESSED");
-
+            }
 
 // controler 1
                 // Raise arm at robot base "shoulder"
-                if (gamepad1.a) {
-                    shoulderServo.setPower(.5);
-                }
-
-                if (digitalTouch.getState() == false)
-                    shoulder = 1;
-                else if (gamepad1.b) {
-                    shoulderServo.setPower(-.5);
-                }
-
-                if (!gamepad1.a && !gamepad1.b)
+            if (gamepad1.a) {
+                if (!digitalTouch2.getState()) { // if the on bord button is pressed
                     shoulderServo.setPower(0);
-
-                // Raise arm at arm joint elbow
-                if (gamepad1.x) {
-                    elbowServo.setPower(-3);
-                } else if (gamepad1.y) {
-                    elbowServo.setPower(+3);
+                }// then do this
+                else {  //if not pressed
+                    shoulderServo.setPower(.5); // do this
                 }
-                if (!gamepad1.x && !gamepad1.y)
+            }
+
+            if (gamepad1.b) { // if b is pressed
+                if (!digitalTouch.getState()) // if the on bord button is pressed
+                    shoulderServo.setPower(0); // then do this
+                 else  //if not pressed
+                 shoulderServo.setPower(-.5); // do this
+            }
+
+            if (!gamepad1.a && !gamepad1.b)
+                shoulderServo.setPower(0);
+
+            // Raise arm at arm joint elbow
+            if (gamepad1.x) {
+                T = 1;
+                if (Angle > 250) { // if the on bord button is pressed
                     elbowServo.setPower(0);
-
-                // Open and close claw
-                if (gamepad1.right_trigger == 1) {
-                    clawServo.setPosition(clawServo.getPosition() + 0.02);
-
-                } else if (gamepad1.left_trigger == 1) {
-                    clawServo.setPosition(clawServo.getPosition() - 0.02);
-
-                } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
-                    clawServo.setPosition(0);
+                }// then do this
+                else {  //if not pressed
+                    elbowServo.setPower(-.5); // do this
                 }
+            }
 
-                // Open and close claw2
-                if (gamepad1.right_trigger == 1) {
-                    clawServo2.setPower(1);
-
-                } else if (gamepad1.left_trigger == 1) {
-                    clawServo2.setPower(-1);
-
-                } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
-                    clawServo2.setPower(0);
+            if (gamepad1.y) {
+                T = 1;
+                if (Angle < 20) { // if the on bord button is pressed
+                    elbowServo.setPower(0);
+                }// then do this
+                else {  //if not pressed
+                    elbowServo.setPower(.5); // do this
                 }
-
-                // dunk the wrist bro
-                if (gamepad1.dpad_left) {
-                    wristServo.setPosition(wristServo.getPosition() + 0.02);
-                } else if (gamepad1.dpad_right) {
-                    wristServo.setPosition(wristServo.getPosition() - 0.02);
+            }
+            // P.O.T
+            if (!gamepad1.x && !gamepad1.y) {
+                if (T == 3) {
+                  if (TT > Angle) {
+                      elbowServo.setPower(-.1);
+                  }
+                  else if (TT < Angle){
+                      elbowServo.setPower(.1);
+                  }
                 }
+                else {
+                    TT = Angle;
+                    T = 3;
+                }
+            }
+
+            // Open and close claw
+            if (gamepad1.right_trigger == 1) {
+                clawServo.setPosition(clawServo.getPosition() + 0.1);
+
+            } else if (gamepad1.left_trigger == 1) {
+                clawServo.setPosition(clawServo.getPosition() - 0.1);
+
+            } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
+                clawServo.setPosition(0);
+            }
+
+            // Open and close claw2
+            if (gamepad1.right_trigger == 1) {
+                clawServo2.setPower(.5);
+
+            } else if (gamepad1.left_trigger == 1) {
+                clawServo2.setPower(-.5);
+
+            } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
+                clawServo2.setPower(0);
+            }
+
+            // dunk the wrist bro
+            if (gamepad1.dpad_left) {
+                wristServo.setPosition(wristServo.getPosition() + 0.02);
+            } else if (gamepad1.dpad_right) {
+                wristServo.setPosition(wristServo.getPosition() - 0.02);
+            }
 
 // controler 2
-                //driving
-                if (gamepad2.a)
-                    NewIdea = 1;
-                if (gamepad2.b)
-                    NewIdea = .5;
-                tgtPower = this.gamepad2.left_stick_y;
-                leftMotor.setPower(tgtPower * NewIdea);
-                tgtPower2 = -this.gamepad2.right_stick_y;
-                rightMotor.setPower(tgtPower2 * NewIdea);
-            }
+            //driving
+            if (gamepad2.a)
+                NewIdea = 1;
+            if (gamepad2.b)
+                NewIdea = .5;
+            tgtPower = this.gamepad2.left_stick_y;
+            leftMotor.setPower(tgtPower * NewIdea);
+            tgtPower2 = -this.gamepad2.right_stick_y;
+            rightMotor.setPower(tgtPower2 * NewIdea);
 
-                // lift up and down
-                if (gamepad2.right_trigger == 1) {
-                    lifter.setPower(0.5);
-                }
-                if (gamepad2.left_trigger == 1) {
-                    lifter.setPower(-0.5);
-                }
-                if (gamepad2.right_trigger == 0 && gamepad2.left_trigger == 0)
-                    lifter.setPower(0);
+
+            // lift up and down
+            if (gamepad2.right_trigger == 1) {
+                lifter.setPower(0.5);
             }
+            if (gamepad2.left_trigger == 1) {
+                lifter.setPower(-0.5);
+            }
+            if (gamepad2.right_trigger == 0 && gamepad2.left_trigger == 0)
+                lifter.setPower(0);
         }
+
     }
+}
+
 
     // testing hardware
 

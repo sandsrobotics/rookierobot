@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -69,8 +70,8 @@ public class AutoDriveByEncoder extends LinearOpMode {
 
 
     /* Declare OpMode members. */
-    HardwareTest robot   = new HardwareTest();   // Use a Pushbot's hardware
-    MsiCameraMMC camera  = new MsiCameraMMC();
+    HardwareTest robot   = new HardwareTest();
+
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
@@ -80,7 +81,7 @@ public class AutoDriveByEncoder extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
-    double MT = 1 ;
+    double MT = 0 ;
 
     @Override
     public void runOpMode() {
@@ -91,6 +92,8 @@ public class AutoDriveByEncoder extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        MsiCameraMMC camera  = new MsiCameraMMC();
+        camera.setHardwareMap(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    // thanks to lynx t shurts
@@ -116,30 +119,40 @@ public class AutoDriveByEncoder extends LinearOpMode {
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
         MT = camera.FindGold();
-
-        robot.lifter.setTargetPosition(4000);
-        robot.lifter.setPower(.5);
-        encoderDrive(DRIVE_SPEED, 6, 6, 5);
+        telemetry.addData("camera", MT);
+        telemetry.update();
+        //robot.lifter.setTargetPosition(4000);
+        //robot.lifter.setPower(.5);
+        //encoderDrive(DRIVE_SPEED, 6, 6, 5);
         //\\//\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
+
+        MT=1;
         if (MT == 1)          {
-            encoderDrive(TURN_SPEED, 1, -1, 5);
-            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+          //  encoderDrive(TURN_SPEED, 1, -1, 5)
+          //  encoderDrive(DRIVE_SPEED, 30, 30, 5);
         }
             else if (MT == 2) {
-            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+            //encoderDrive(DRIVE_SPEED, 30, 30, 5);
         }
             else if (MT == 3) {
-            encoderDrive(TURN_SPEED, -1, 1, 5);
-            encoderDrive(DRIVE_SPEED, 30, 30, 5);
+            //encoderDrive(TURN_SPEED, -1, 1, 5);
+            //encoderDrive(DRIVE_SPEED, 30, 30, 5);
         }
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+
+        //telemetry.addData("Path", "Complete");
+        //telemetry.update();
+
+       // while (true) {
+         //   MT = camera.FindGold();
+           //
+        //}
     }
+
 
     /*
      *  Method to perfmorm a relative move, based on encoder counts.
@@ -204,8 +217,9 @@ public class AutoDriveByEncoder extends LinearOpMode {
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // camera
-            while (MT > -1)
-            telemetry.addData("camera", MT);
+
         }
     }
 }
+
+

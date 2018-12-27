@@ -29,7 +29,14 @@ public class MsiCameraMMC extends LinearOpMode{
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private HardwareMap hardwareMap = null;
+    private void MsiCameraMMC(){
 
+    }
+
+    public void setHardwareMap(HardwareMap gHardwareMap) {
+        hardwareMap = gHardwareMap;
+    }
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -43,7 +50,10 @@ public class MsiCameraMMC extends LinearOpMode{
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = "Af6s/L//////AAABmRhSfCy6B0HFrA+rWBwSOjOLybbnvggOtNv1qQcKzWQeehDdLo7Rp/PjEsmQEkAVVG65fkwcLBXyAMdGzOGCTIdZ/s0Qo0Y50Iz2mYmayUvmTu4jhJSiRpcr6dLCg9guNe7awzfAxX2Bwb9A3V9vW0T+EUPsEWci5tUeosyli1keHgxcT3IaQvs0217TPzfty3lQKKBitm1jhzf7dh0vPBMdZRT91M6+cQQzBNA9NXxxCMjl9ZwXA6mTzLO43fO7Gg2HOanGfhAJytyZD+DeuGtzJWQxjuRydRIsNxpsbUAS5HmVaA9zWyaE3UU2AuEOzOobMEcm+jZs8Ha/tAKwwAZJcn9fEpHChSBtPmJQ2h1E\n";
+
+
+
+    private static final String VUFORIA_KEY = "Af6s/L//////AAABmRhSfCy6B0HFrA+rWBwSOjOLybbnvggOtNv1qQcKzWQeehDdLo7Rp/PjEsmQEkAVVG65fkwcLBXyAMdGzOGCTIdZ/s0Qo0Y50Iz2mYmayUvmTu4jhJSiRpcr6dLCg9guNe7awzfAxX2Bwb9A3V9vW0T+EUPsEWci5tUeosyli1keHgxcT3IaQvs0217TPzfty3lQKKBitm1jhzf7dh0vPBMdZRT91M6+cQQzBNA9NXxxCMjl9ZwXA6mTzLO43fO7Gg2HOanGfhAJytyZD+DeuGtzJWQxjuRydRIsNxpsbUAS5HmVaA9zWyaE3UU2AuEOzOobMEcm+jZs8Ha/tAKwwAZJcn9fEpHChSBtPmJQ2h1E";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -57,56 +67,73 @@ public class MsiCameraMMC extends LinearOpMode{
      */
     private TFObjectDetector tfod;
 
+
+
     public int FindGold() {
+
+        initVuforia();
+
         int goldMineralX = -1;
         int silverMineral1X = -1;
         int silverMineral2X = -1;
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
+
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
-        } else {
         }
 
+
+        if (tfod != null) {
+            tfod.activate();
+        }
+
+
+        int foundGold = 0;
+
+        while (foundGold == 0) {
             if (tfod != null) {
-                tfod.activate();
-            }
-
-
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        if (updatedRecognitions.size() == 3) {
-
-                            for (Recognition recognition : updatedRecognitions) {
-                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getLeft();
-                                } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getLeft();
-                                } else {
-                                    silverMineral2X = (int) recognition.getLeft();
-                                }
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    if (updatedRecognitions.size() == 0) {
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+                                silverMineral2X = (int) recognition.getLeft();
                             }
-                            if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                                if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                } else {
-                                }
+                        }
+                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                            } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                            } else {
                             }
                         }
                     }
                 }
-
-        if (tfod != null) {
-            tfod.shutdown();
+            }
+            ///////////// this is my loop breaker
+            if (goldMineralX > -1){
+            foundGold = 1;
+            }
+            ///////////// if the cam does not work re try
         }
-        return goldMineralX;
-    }
 
+            if (tfod != null) {
+                tfod.shutdown();
+            }
+            return goldMineralX;
+        }
+
+
+
+
+
+
+////////////////////////////////////////////////////
     /**
      * Initialize the Vuforia localization engine.
      */
@@ -128,11 +155,16 @@ public class MsiCameraMMC extends LinearOpMode{
     /**
      * Initialize the Tensor Flow Object Detection engine.
      */
+
     private void initTfod() {
+
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);//
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+
     }
 }
+
