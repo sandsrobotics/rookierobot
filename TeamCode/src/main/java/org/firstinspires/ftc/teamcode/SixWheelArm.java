@@ -61,6 +61,8 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         double Angle = 0;
         int T = 0;
         double TT = 0;
+        double ex = 0;
+        double ae = 0;
         while (opModeIsActive()) {
 
             Angle = (AngleSensor.getVoltage()) * 81; // change if you change voltige D/V (270 / 3.33)
@@ -116,6 +118,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             // Raise arm at arm joint elbow
             if (gamepad1.x) {
                 T = 1;
+                ex = 0;
                 if (Angle > 250) { // if the on bord button is pressed
                     elbowServo.setPower(0);
                 }// then do this
@@ -126,6 +129,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
             if (gamepad1.y) {
                 T = 1;
+                ex = 0;
                 if (Angle < 20) { // if the on bord button is pressed
                     elbowServo.setPower(0);
                 }// then do this
@@ -136,11 +140,14 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             // P.O.T
             if (!gamepad1.x && !gamepad1.y) {
                 if (T == 3) {
-                  if (TT > Angle) {
-                      elbowServo.setPower(-.1);
+                  if ((TT) > Angle) {
+                      ex = ex - .0005;
+                      elbowServo.setPower(-.05 + ex);
                   }
                   else if (TT < Angle){
-                      elbowServo.setPower(.1);
+                      ex = ex + .0001;
+                      elbowServo.setPower(.05 + ex);
+
                   }
                 }
                 else {
