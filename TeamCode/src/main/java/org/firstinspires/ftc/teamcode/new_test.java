@@ -16,8 +16,10 @@ import java.util.Map;
 @TeleOp // this makes the robot controlled by a controller
 
 public class new_test extends LinearOpMode {   // addition of the hardware's software
+
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
+    private DigitalChannel digitalTouch2;
     private DistanceSensor sensorColorRange = null;
     //private CRServo elbowServo;
     private CRServo elbowServo;
@@ -32,21 +34,23 @@ public class new_test extends LinearOpMode {   // addition of the hardware's sof
 
     @Override
     public void runOpMode() {
-        leftMotor = hardwareMap.get(DcMotor.class, "leftmotor");
-        rightMotor = hardwareMap.get(DcMotor.class, "rightmotor");
-        elbowServo = hardwareMap.get(CRServo.class, "elbowServo");
-        wristServo = hardwareMap.get(Servo.class, "wristServo");
-        //elbowServo = hardwareMap.get(Servo.class, "elbowservo");
-        clawServo = hardwareMap.get(Servo.class, "clawservo");
-        lifter = hardwareMap.get(DcMotor.class, "lifter");
-        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
-        sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
-        shoulderServo = hardwareMap.get(DcMotor.class, "sholderServo");
-        clawServo2 = hardwareMap.get(CRServo.class, "clawServo2");
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-        AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
-        //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
+            leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+            rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
+            elbowServo = hardwareMap.get(CRServo.class, "elbowservo");
+            wristServo = hardwareMap.get(Servo.class, "wristservo");
+            //elbowServo = hardwareMap.get(Servo.class, "elbowservo");
+            clawServo = hardwareMap.get(Servo.class, "clawservo");
+            lifter = hardwareMap.get(DcMotor.class, "lifter");
+            sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+            sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
+            shoulderServo = hardwareMap.get(DcMotor.class, "sholderServo");
+            clawServo2 = hardwareMap.get(CRServo.class, "clawServo2");
+            digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+            digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+            digitalTouch2 = hardwareMap.get(DigitalChannel.class, "digitalTouch2");
+            digitalTouch2.setMode(DigitalChannel.Mode.INPUT);
+            AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
+            //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
 
         waitForStart();
         // run until the end of the match (driver presses STOP)

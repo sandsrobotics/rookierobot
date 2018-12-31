@@ -49,6 +49,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         digitalTouch2 = hardwareMap.get(DigitalChannel.class, "digitalTouch2");
         digitalTouch2.setMode(DigitalChannel.Mode.INPUT);
         AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
+        shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
 
         waitForStart();
@@ -169,10 +170,10 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
             // Open and close claw2
             if (gamepad1.right_trigger == 1) {
-                clawServo2.setPower(.5);
+                clawServo2.setPower(.7);
 
             } else if (gamepad1.left_trigger == 1) {
-                clawServo2.setPower(-.5);
+                clawServo2.setPower(-.7);
 
             } else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
                 clawServo2.setPower(0);
