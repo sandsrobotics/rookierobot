@@ -216,7 +216,6 @@ public class AutoDriveByEncoder extends LinearOpMode {
             robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            // camera
 
         }
     }

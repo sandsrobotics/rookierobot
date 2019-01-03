@@ -64,7 +64,8 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         int T = 0;
         double TT = 0;
         double ex = 0;
-        double ae = 0;
+        double PT = 0;
+
         while (opModeIsActive()) {
 
             Angle = (AngleSensor.getVoltage()) * 81; // change if you change voltige D/V (270 / 3.33)
@@ -100,10 +101,8 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 // controler 1
             // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
-                if (!digitalTouch2.getState()) { // if the on bord button is pressed
+                if (shoulderServo.getCurrentPosition() > -1500) { // if the on bord button is pressed
                     shoulderServo.setPower(0);
-                    shoulderServo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 }// then do this
                 else {  //if not pressed
                     shoulderServo.setPower(.5); // do this
@@ -146,10 +145,10 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             if (!gamepad1.x && !gamepad1.y) {
                 if (T == 3) {
                     if ((TT) > Angle) {
-                        ex = ex - .0005;
-                        elbowServo.setPower(-.05 + ex);
+                       PT = Angle - TT ;
+                        elbowServo.setPower(-.05 + (PT/11));
                     } else if (TT < Angle) {
-                        ex = ex + .0001;
+
                         elbowServo.setPower(.05 + ex);
 
                     }
@@ -215,11 +214,15 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             // dump position
             if (gamepad2.dpad_up) {
                 wristServo.setPosition(0.58);
+
                 shoulderServo.setTargetPosition(-1500);
                 shoulderServo.setPower(.5);
                 TT = 100;
 
-            }
+
+                }
+
+
             //get position
             if (gamepad2.dpad_down) {
                 wristServo.setPosition(0.47); //\\//\\ NOTE ANTONIO SET SHOULDER POWER TO FIX BUG
