@@ -50,6 +50,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
         digitalTouch2.setMode(DigitalChannel.Mode.INPUT);
         AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
         shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
 
         waitForStart();
@@ -80,6 +81,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             telemetry.addData("wrist servo port ", wristServo.getPosition());
             telemetry.addData("volts", AngleSensor.getVoltage());
             telemetry.addData("Angle", Angle);
+            telemetry.addData("Encodeer", shoulderServo.getCurrentPosition());
             //telemetry.addData("Distance (cm)", sensorColorRange.getDistance(DistanceUnit.CM));
             //telemetry.addData("Alpha", sensorColor.alpha());
             //telemetry.addData("Red  ", sensorColor.red());
@@ -96,10 +98,12 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             }
 
 // controler 1
-                // Raise arm at robot base "shoulder"
+            // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
                 if (!digitalTouch2.getState()) { // if the on bord button is pressed
                     shoulderServo.setPower(0);
+                    shoulderServo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 }// then do this
                 else {  //if not pressed
                     shoulderServo.setPower(.5); // do this
@@ -109,8 +113,8 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             if (gamepad1.b) { // if b is pressed
                 if (!digitalTouch.getState()) // if the on bord button is pressed
                     shoulderServo.setPower(0); // then do this
-                 else  //if not pressed
-                 shoulderServo.setPower(-.5); // do this
+                else  //if not pressed
+                    shoulderServo.setPower(-.5); // do this
             }
 
             if (!gamepad1.a && !gamepad1.b)
@@ -138,20 +142,18 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
                     elbowServo.setPower(.5); // do this
                 }
             }
-            // P.O.T
+            // STAY STILL
             if (!gamepad1.x && !gamepad1.y) {
                 if (T == 3) {
-                  if ((TT) > Angle) {
-                      ex = ex - .0005;
-                      elbowServo.setPower(-.05 + ex);
-                  }
-                  else if (TT < Angle){
-                      ex = ex + .0001;
-                      elbowServo.setPower(.05 + ex);
+                    if ((TT) > Angle) {
+                        ex = ex - .0005;
+                        elbowServo.setPower(-.05 + ex);
+                    } else if (TT < Angle) {
+                        ex = ex + .0001;
+                        elbowServo.setPower(.05 + ex);
 
-                  }
-                }
-                else {
+                    }
+                } else {
                     TT = Angle;
                     T = 3;
                 }
@@ -205,12 +207,33 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             if (gamepad2.left_trigger == 1) {
                 lifter.setPower(-0.5);
             }
+            {
             if (gamepad2.right_trigger == 0 && gamepad2.left_trigger == 0)
                 lifter.setPower(0);
+
+            }
+            // dump position
+            if (gamepad2.dpad_up) {
+                wristServo.setPosition(0.58);
+                shoulderServo.setTargetPosition(-1500);
+                shoulderServo.setPower(.5);
+                TT = 100;
+
+            }
+            //get position
+            if (gamepad2.dpad_down) {
+                wristServo.setPosition(0.47); //\\//\\ NOTE ANTONIO SET SHOULDER POWER TO FIX BUG
+                shoulderServo.setTargetPosition(-3000);
+                shoulderServo.setPower(.5);
+                TT = 30;
+
+            }
+
+            }
         }
 
     }
-}
+
 
 
     // testing hardware
