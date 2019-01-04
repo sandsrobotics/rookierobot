@@ -121,8 +121,8 @@ public class AutoDriveByEncoder extends LinearOpMode {
         MT = camera.FindGold();
         telemetry.addData("camera", MT);
         telemetry.update();
-        //robot.lifter.setTargetPosition(4000);
-        //robot.lifter.setPower(.5);
+        robot.lifter.setTargetPosition(4000);
+        robot.lifter.setPower(.5);
         //encoderDrive(DRIVE_SPEED, 6, 6, 5);
         //\\//\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
