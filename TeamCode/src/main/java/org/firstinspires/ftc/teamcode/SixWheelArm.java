@@ -159,7 +159,7 @@ public class SixWheelArm extends LinearOpMode {
 
                 }
                     else {
-                    elbowServo.setPower(.5);
+                    elbowServo.setPower(.65);
 
                 }
             }
