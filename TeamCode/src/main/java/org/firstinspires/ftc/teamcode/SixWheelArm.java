@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode; //    this is telling the robot what data is being used
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //importation of data about the robot's hardware
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -12,9 +12,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-@TeleOp // this makes the robot controlled by a controller
+@TeleOp
 
-public class SixWheelArm extends LinearOpMode {   // addition of the hardware's software
+public class SixWheelArm extends LinearOpMode {
 
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
@@ -55,7 +55,7 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
         waitForStart();
         // run until the end of the match (driver presses STOP)
-        double tgtPower = 0;     // adding data
+        double tgtPower = 0;
         double tgtPower2 = 0;
         double tgtPower3 = 0;
         double NewIdea = 0;
@@ -68,9 +68,9 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
         while (opModeIsActive()) {
 
-            Angle = (AngleSensor.getVoltage()) * 81; // change if you change voltige D/V (270 / 3.33)
+            Angle = (AngleSensor.getVoltage()) * 81;
 
-            telemetry.addData("Target Power", tgtPower);  // report to the phone screen about what the robot is doing
+            telemetry.addData("Target Power", tgtPower);
             telemetry.addData("Left Motor Power", leftMotor.getPower());
             //telemetry.addData("Status", "Running");
             telemetry.addData("Target Power2", tgtPower2);
@@ -103,31 +103,39 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 // controler 1
             // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
-                if (shoulderServo.getCurrentPosition() > -1500) { // if the on bord button is pressed
+                shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                if (shoulderServo.getCurrentPosition() > -1250) {
                     shoulderServo.setPower(0);
 
                 }
                 else {
-                    shoulderServo.setPower(.5); // do this
+                    shoulderServo.setPower(.5);
 
                 }
             }
 
             if (gamepad1.b) { // if b is pressed
-                if (!digitalTouch.getState()) { // if the on bord button is pressed
-                    shoulderServo.setPower(0); // then do this
+                shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                if (!digitalTouch.getState()) {
+                    shoulderServo.setPower(0);
 
                 }
                     else { //if not pressed
-                        shoulderServo.setPower(-.5); // do this
+                        shoulderServo.setPower(-.5);
 
                     }
             }
-                //if bolth not pressed
+                //if both not pressed
             if (!gamepad1.a && !gamepad1.b) {
-                shoulderServo.setPower(0);
+                if (gamepad2.dpad_down)
+                { }
 
-            }
+                else {
+                shoulderServo.setPower(0);
+                }
+                }
+
+
             // Raise arm at arm joint elbow
             if (gamepad1.x) {
                 T = 1;
@@ -252,8 +260,9 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
             if (gamepad2.dpad_up) {
                 wristServo.setPosition(0.58);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                shoulderServo.setTargetPosition(-1500);
+                shoulderServo.setTargetPosition(-1600);
                 shoulderServo.setPower(.5);
+                T = 3;
                 TT = 100;
 
             }
@@ -261,10 +270,11 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
 
             //get position
             if (gamepad2.dpad_down) {
-                wristServo.setPosition(0.47); //\\//\\ NOTE ANTONIO SET SHOULDER POWER TO FIX BUG
+                wristServo.setPosition(0.47);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                shoulderServo.setTargetPosition(-3000);
+                shoulderServo.setTargetPosition(-3200);
                 shoulderServo.setPower(.5);
+                T = 3;
                 TT = 30;
 
             }
@@ -272,4 +282,3 @@ public class SixWheelArm extends LinearOpMode {   // addition of the hardware's 
     }
 }
 
-// testing hardware
