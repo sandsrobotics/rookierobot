@@ -104,7 +104,7 @@ public class SixWheelArm extends LinearOpMode {
             // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
                 shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                if (shoulderServo.getCurrentPosition() > -1250) {
+                if (!digitalTouch2.getState()) {
                     shoulderServo.setPower(0);
 
                 }
@@ -242,12 +242,12 @@ public class SixWheelArm extends LinearOpMode {
 
             // lift up and down
             if (gamepad2.right_trigger == 1) {
-                lifter.setPower(0.5);
+                lifter.setPower(1);
 
             }
 
             if (gamepad2.left_trigger == 1) {
-                lifter.setPower(-0.5);
+                lifter.setPower(-1);
 
             }
 
