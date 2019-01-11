@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp
 
-public class SixWheelArm extends LinearOpMode {
+public class SixWheelArm_MMC extends LinearOpMode {
 
     private DcMotor leftMotor;
     private DigitalChannel digitalTouch;
@@ -62,6 +62,7 @@ public class SixWheelArm extends LinearOpMode {
         double shoulder = 1;
         double Angle = 0;
         int T = 0;
+        int I = 0;
         double TT = 0;
         double ex = 0;
         double PT = 0;
@@ -138,6 +139,7 @@ public class SixWheelArm extends LinearOpMode {
 
             // Raise arm at arm joint elbow
             if (gamepad1.x) {
+                I = 0;
                 T = 1;
                 ex = 0;
 
@@ -152,6 +154,7 @@ public class SixWheelArm extends LinearOpMode {
             }
 
             if (gamepad1.y) {
+                I = 0;
                 T = 1;
                 ex = 0;
                 if (Angle < 20) {
@@ -173,18 +176,20 @@ public class SixWheelArm extends LinearOpMode {
                         elbowServo.setPower(-.05 + (PT / 11));
 
                     }
-                        else if (TT < Angle) {
-                            elbowServo.setPower(.05 + ex);
-
-                        }
-                }
-                    else {
-                        TT = Angle;
-                        T = 3;
+                    else if (TT < Angle) {
+                        elbowServo.setPower(.05 );
 
                     }
-            }
 
+                }
+                else {
+                    if (I == 0) {
+                        TT = Angle;
+                    }
+                    T = 3;
+
+                }
+            }
             // Open and close claw
             if (gamepad1.right_trigger == 1) {
                 clawServo.setPosition(clawServo.getPosition() + 0.1);
@@ -201,11 +206,11 @@ public class SixWheelArm extends LinearOpMode {
 
             // Open and close claw2
             if (gamepad1.right_trigger == 1) {
-                clawServo2.setPower(.7);
+                clawServo2.setPower(.8);
 
             }
              else if (gamepad1.left_trigger == 1) {
-                clawServo2.setPower(-.7);
+                clawServo2.setPower(-.8);
 
             }
              else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
@@ -215,12 +220,12 @@ public class SixWheelArm extends LinearOpMode {
 
             // dunk the wrist bro
             if (gamepad1.dpad_left) {
-                wristServo.setPosition(wristServo.getPosition() + 0.02);
+                wristServo.setPosition(wristServo.getPosition() + 0.015);
 
             }
 
              else if (gamepad1.dpad_right) {
-                wristServo.setPosition(wristServo.getPosition() - 0.02);
+                wristServo.setPosition(wristServo.getPosition() - 0.015);
 
             }
 
@@ -256,26 +261,29 @@ public class SixWheelArm extends LinearOpMode {
 
             }
 
-            // dump position
+            // get position
             if (gamepad2.dpad_up) {
                 wristServo.setPosition(0.58);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                shoulderServo.setTargetPosition(-1600);
+                shoulderServo.setTargetPosition(300);
                 shoulderServo.setPower(.5);
                 T = 3;
-                TT = 100;
+                I = 1;
+                TT = 90;
 
             }
 
 
-            //get position
+            //dump position
             if (gamepad2.dpad_down) {
                 wristServo.setPosition(0.47);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                shoulderServo.setTargetPosition(-3200);
+                shoulderServo.setTargetPosition(-2500);
                 shoulderServo.setPower(.5);
+
                 T = 3;
-                TT = 30;
+                I = 1;
+                TT = 90;
 
             }
         }
