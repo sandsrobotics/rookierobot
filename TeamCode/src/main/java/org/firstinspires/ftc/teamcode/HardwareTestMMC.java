@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class HardwareTest {
+public class HardwareTestMMC {
     /* Public OpMode members. */
     public DcMotor leftMotor;
     public DigitalChannel digitalTouch;
@@ -79,7 +79,7 @@ public class HardwareTest {
     public ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwareTest() {
+    public HardwareTestMMC() {
 
     }
 

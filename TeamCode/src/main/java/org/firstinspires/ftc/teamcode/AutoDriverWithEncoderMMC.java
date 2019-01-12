@@ -30,12 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -66,11 +63,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name="AUTOMMC: Auto Drive By Encoder baced", group="MMC")
 //@Disabled
-public class AutoDriveByEncoder extends LinearOpMode {
+public class AutoDriverWithEncoderMMC extends LinearOpMode {
 
 
     /* Declare OpMode members. */
-    HardwareTest robot   = new HardwareTest();
+    HardwareTestMMC robot   = new HardwareTestMMC();
 
     private ElapsedTime     runtime = new ElapsedTime();
 

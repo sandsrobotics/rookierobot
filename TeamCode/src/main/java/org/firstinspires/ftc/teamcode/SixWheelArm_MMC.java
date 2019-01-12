@@ -30,18 +30,22 @@ public class SixWheelArm_MMC extends LinearOpMode {
     private DcMotor shoulderServo;
     private CRServo clawServo2;
     private AnalogInput AngleSensor;
+//tester
+    private Servo TEST;
 
     @Override
     public void runOpMode() {
         leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elbowServo = hardwareMap.get(CRServo.class, "elbowservo");
         wristServo = hardwareMap.get(Servo.class, "wristservo");
         //elbowServo = hardwareMap.get(Servo.class, "elbowservo");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
         lifter = hardwareMap.get(DcMotor.class, "lifter");
-        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
-        sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
+        //sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+        //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
         shoulderServo = hardwareMap.get(DcMotor.class, "sholderServo");
         clawServo2 = hardwareMap.get(CRServo.class, "clawServo2");
         digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
@@ -50,6 +54,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
         digitalTouch2.setMode(DigitalChannel.Mode.INPUT);
         AngleSensor = hardwareMap.get(AnalogInput.class, "AngleSensor");
         shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//test
+        TEST = hardwareMap.get(Servo.class, "Test");
 
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
 
@@ -57,15 +63,17 @@ public class SixWheelArm_MMC extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         double tgtPower = 0;
         double tgtPower2 = 0;
-        double tgtPower3 = 0;
         double NewIdea = 0;
-        double shoulder = 1;
         double Angle = 0;
         int T = 0;
         int I = 0;
+        int c = 0;
+        int step = 0;
         double TT = 0;
-        double ex = 0;
         double PT = 0;
+        //double tgtPower3 = 0;
+        //double shoulder = 1;
+        //double ex = 0;
 
         while (opModeIsActive()) {
 
@@ -121,29 +129,29 @@ public class SixWheelArm_MMC extends LinearOpMode {
                     shoulderServo.setPower(0);
 
                 }
-                    else { //if not pressed
-                        shoulderServo.setPower(-.5);
+                else { //if not pressed
+                    shoulderServo.setPower(-.5);
 
-                    }
+                }
             }
-                //if both not pressed
+            //if both not pressed
             if (!gamepad1.a && !gamepad1.b) {
-                if (gamepad2.dpad_down)
-                { }
+                if (gamepad2.dpad_down) {
 
+                }
                 else {
-                shoulderServo.setPower(0);
+                    shoulderServo.setPower(0);
                 }
-                }
+            }
 
 
             // Raise arm at arm joint elbow
             if (gamepad1.x) {
                 I = 0;
                 T = 1;
-                ex = 0;
+                //ex = 0;
 
-                if (Angle > 250){
+                if (Angle > 250) {
                     elbowServo.setPower(0);
 
                 }
@@ -156,13 +164,13 @@ public class SixWheelArm_MMC extends LinearOpMode {
             if (gamepad1.y) {
                 I = 0;
                 T = 1;
-                ex = 0;
+                //ex = 0;
                 if (Angle < 20) {
                     elbowServo.setPower(0);
 
                 }
-                    else {
-                    elbowServo.setPower(.65);
+                else {
+                    elbowServo.setPower(.5);
 
                 }
             }
@@ -177,7 +185,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
 
                     }
                     else if (TT < Angle) {
-                        elbowServo.setPower(.05 );
+                        elbowServo.setPower(.05);
 
                     }
 
@@ -185,6 +193,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 else {
                     if (I == 0) {
                         TT = Angle;
+
                     }
                     T = 3;
 
@@ -195,11 +204,11 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 clawServo.setPosition(clawServo.getPosition() + 0.1);
 
             }
-             else if (gamepad1.left_trigger == 1) {
+            else if (gamepad1.left_trigger == 1) {
                 clawServo.setPosition(clawServo.getPosition() - 0.1);
 
             }
-             else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
+            else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
                 clawServo.setPosition(0);
 
             }
@@ -209,11 +218,11 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 clawServo2.setPower(.8);
 
             }
-             else if (gamepad1.left_trigger == 1) {
+            else if (gamepad1.left_trigger == 1) {
                 clawServo2.setPower(-.8);
 
             }
-             else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
+            else if (gamepad1.left_trigger == 0 & gamepad1.right_trigger == 0) {
                 clawServo2.setPower(0);
 
             }
@@ -223,9 +232,18 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 wristServo.setPosition(wristServo.getPosition() + 0.015);
 
             }
-
-             else if (gamepad1.dpad_right) {
+            else if (gamepad1.dpad_right) {
                 wristServo.setPosition(wristServo.getPosition() - 0.015);
+
+            }
+
+            // TESTERS
+            if (gamepad1.left_bumper) {
+                TEST.setPosition(TEST.getPosition() + 0.015);
+
+            }
+            else if (gamepad1.right_bumper) {
+                TEST.setPosition(TEST.getPosition() - 0.015);
 
             }
 
@@ -239,11 +257,24 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 NewIdea = .5;
 
             }
-                tgtPower = this.gamepad2.left_stick_y;
-                leftMotor.setPower(tgtPower * NewIdea);
-                tgtPower2 = -this.gamepad2.right_stick_y;
-                rightMotor.setPower(tgtPower2 * NewIdea);
+            // left/right
+            if (Math.abs(gamepad2.right_stick_y ) > 0.01  || Math.abs(gamepad2.left_stick_y ) > 0.01  ) {
+                c = 1;
+                step = 0;
+                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+            }
+            // not moving
+            else {
+                c = 0;
+
+            }
+
+            tgtPower = this.gamepad2.left_stick_y;
+            leftMotor.setPower(tgtPower * NewIdea);
+            tgtPower2 = -this.gamepad2.right_stick_y;
+            rightMotor.setPower(tgtPower2 * NewIdea);
 
             // lift up and down
             if (gamepad2.right_trigger == 1) {
@@ -286,7 +317,76 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 TT = 90;
 
             }
+            // move left 1 bit
+            if (gamepad2.dpad_left);{
+                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftMotor.setTargetPosition(300);
+                leftMotor.setPower(.5);
+            }
+
+
+            // move right 1 bit
+            if (gamepad2.dpad_right){
+                if (c==0) {
+                    if (step == 0) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 1; }
+
+                    }
+                    else if (step == 1) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 2; }
+
+                    }
+                    else if (step == 2) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 3; }
+
+                    }
+                    else if (step == 3) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 4; }
+
+                    }
+                    else  if (step == 4) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 5; }
+
+                    }
+                    else if (step == 5) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(300);
+                        rightMotor.setTargetPosition(300);
+                        rightMotor.setPower(.5);
+                        step = 0;
+
+                    }
+
+                    }
+                }
+            }
         }
     }
-}
+
 
