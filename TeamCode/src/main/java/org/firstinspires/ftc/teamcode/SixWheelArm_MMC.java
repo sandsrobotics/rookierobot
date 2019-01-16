@@ -317,12 +317,6 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 TT = 90;
 
             }
-            // move left 1 bit
-            if (gamepad2.dpad_left);{
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                leftMotor.setTargetPosition(300);
-                leftMotor.setPower(.5);
-            }
 
 
             // move right 1 bit
@@ -388,5 +382,3 @@ public class SixWheelArm_MMC extends LinearOpMode {
             }
         }
     }
-
-
