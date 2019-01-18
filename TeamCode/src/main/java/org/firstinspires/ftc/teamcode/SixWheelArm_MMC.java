@@ -69,6 +69,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
         int I = 0;
         int c = 0;
         int step = 0;
+        int lock = 0;
         double TT = 0;
         double PT = 0;
         //double tgtPower3 = 0;
@@ -113,7 +114,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
             // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
                 shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                if (!digitalTouch2.getState()) {
+                if (shoulderServo.getCurrentPosition() < 300) {
                     shoulderServo.setPower(0);
 
                 }
@@ -260,7 +261,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
             // left/right
             if (Math.abs(gamepad2.right_stick_y ) > 0.01  || Math.abs(gamepad2.left_stick_y ) > 0.01  ) {
                 c = 1;
-                step = 0;
+                step = -2;
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -320,65 +321,103 @@ public class SixWheelArm_MMC extends LinearOpMode {
 
 
             // move right 1 bit
+
+
             if (gamepad2.dpad_right){
                 if (c==0) {
+                    step = -2;
+                    if (step == -2) {
+                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setTargetPosition(0);
+                        rightMotor.setTargetPosition(0);
+                        rightMotor.setPower(0);
+                        leftMotor.setPower(0);
+                        if ((leftMotor.getCurrentPosition() < 10) || (leftMotor.getCurrentPosition() > -10) && (rightMotor.getCurrentPosition() < 10) || (rightMotor.getCurrentPosition() > -10 )) {
+                            step = -2;
+                            // at encoder reset
+                        }
+
+                    }
                     if (step == 0) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
+                        leftMotor.setTargetPosition(600);
+                        rightMotor.setTargetPosition(600);
                         rightMotor.setPower(.5);
-                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 1; }
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < 605) || (leftMotor.getCurrentPosition() > 595) && (rightMotor.getCurrentPosition() < 605) || (rightMotor.getCurrentPosition() > 595 )) {
+                            step = 1;
+                        }
 
                     }
                     else if (step == 1) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
+                        leftMotor.setTargetPosition(-100);
+                        rightMotor.setTargetPosition(100);
                         rightMotor.setPower(.5);
-                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 2; }
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < -95) || (leftMotor.getCurrentPosition() > -105) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
+                            step = 2;
+                        }
 
                     }
                     else if (step == 2) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
+                        leftMotor.setTargetPosition(-300);
+                        rightMotor.setTargetPosition(-300);
                         rightMotor.setPower(.5);
-                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 3; }
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < 305) || (leftMotor.getCurrentPosition() > 295) && (rightMotor.getCurrentPosition() < 305) || (rightMotor.getCurrentPosition() > 295 )) {
+                            step = 3;
+                        }
 
                     }
                     else if (step == 3) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
+                        leftMotor.setTargetPosition(100);
+                        rightMotor.setTargetPosition(-100);
                         rightMotor.setPower(.5);
-                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 4; }
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < 105) || (leftMotor.getCurrentPosition() > 95) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
+                            step = 4;
+                        }
 
                     }
                     else  if (step == 4) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
+                        leftMotor.setTargetPosition(-300);
+                        rightMotor.setTargetPosition(-300);
                         rightMotor.setPower(.5);
-                        if (leftMotor.getCurrentPosition() == 300 & rightMotor.getCurrentPosition() == 300){ step = 5; }
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < -295) || (leftMotor.getCurrentPosition() > -305) && (rightMotor.getCurrentPosition() < -295) || (rightMotor.getCurrentPosition() > -305 )) {
+                            step = 5;
+                        }
 
                     }
-                    else if (step == 5) {
-                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(300);
-                        rightMotor.setTargetPosition(300);
-                        rightMotor.setPower(.5);
-                        step = 0;
 
-                    }
 
                     }
                 }
             }
         }
     }
+    //if(sensorValue[Bumperswitch] == 1)
+//motor[frontleft] = 0;
+// else
+//if(sensorValue[Bumperswitch] == 0);
+// motor[frontleft] = 127;
+
+
+// if (Bumperswitch)
+//{
+// frontleft = 0;
+//}
+// else
+//{
+// frontleft = 127;
+//}
