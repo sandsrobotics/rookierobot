@@ -114,7 +114,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
             // Raise arm at robot base "shoulder"
             if (gamepad1.a) {
                 shoulderServo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                if (shoulderServo.getCurrentPosition() < 300) {
+                if (!digitalTouch2  .getState()) {
                     shoulderServo.setPower(0);
 
                 }
@@ -298,7 +298,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 wristServo.setPosition(0.58);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 shoulderServo.setTargetPosition(300);
-                shoulderServo.setPower(.5);
+                shoulderServo.setPower(1);
                 T = 3;
                 I = 1;
                 TT = 90;
@@ -311,7 +311,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 wristServo.setPosition(0.47);
                 shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 shoulderServo.setTargetPosition(-2500);
-                shoulderServo.setPower(.5);
+                shoulderServo.setPower(1);
 
                 T = 3;
                 I = 1;
@@ -319,11 +319,23 @@ public class SixWheelArm_MMC extends LinearOpMode {
 
             }
 
+            //fold
+            if (gamepad2.dpad_left) {
+                wristServo.setPosition(0.);
+                shoulderServo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                shoulderServo.setTargetPosition(-100);
+                shoulderServo.setPower(1);
+
+                T = 3;
+                I = 1;
+                TT = 300;
+
+            }
 
             // move right 1 bit
 
 
-            if (gamepad2.dpad_right){
+            if (gamepad2.right_stick_x < .5 ){
                 if (c==0) {
                     step = -2;
                     if (step == -2) {
@@ -335,7 +347,9 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(0);
                         if ((leftMotor.getCurrentPosition() < 10) || (leftMotor.getCurrentPosition() > -10) && (rightMotor.getCurrentPosition() < 10) || (rightMotor.getCurrentPosition() > -10 )) {
                             step = -2;
-                            // at encoder reset
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
                         }
 
                     }
@@ -348,6 +362,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(.5);
                         if ((leftMotor.getCurrentPosition() < 605) || (leftMotor.getCurrentPosition() > 595) && (rightMotor.getCurrentPosition() < 605) || (rightMotor.getCurrentPosition() > 595 )) {
                             step = 1;
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
                     }
@@ -360,6 +376,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(.5);
                         if ((leftMotor.getCurrentPosition() < -95) || (leftMotor.getCurrentPosition() > -105) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
                             step = 2;
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
                     }
@@ -372,6 +390,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(.5);
                         if ((leftMotor.getCurrentPosition() < 305) || (leftMotor.getCurrentPosition() > 295) && (rightMotor.getCurrentPosition() < 305) || (rightMotor.getCurrentPosition() > 295 )) {
                             step = 3;
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
                     }
@@ -384,6 +404,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(.5);
                         if ((leftMotor.getCurrentPosition() < 105) || (leftMotor.getCurrentPosition() > 95) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
                             step = 4;
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
                     }
@@ -396,6 +418,8 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         leftMotor.setPower(.5);
                         if ((leftMotor.getCurrentPosition() < -295) || (leftMotor.getCurrentPosition() > -305) && (rightMotor.getCurrentPosition() < -295) || (rightMotor.getCurrentPosition() > -305 )) {
                             step = 5;
+                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
                     }
