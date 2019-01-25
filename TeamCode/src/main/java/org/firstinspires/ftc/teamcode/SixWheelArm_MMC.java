@@ -332,21 +332,26 @@ public class SixWheelArm_MMC extends LinearOpMode {
 
             }
 
-            // move right 1 bit
 
 
-            if (gamepad2.right_stick_x < .5 ){
+            telemetry.addLine("00000000000000000000000000");
+            if (gamepad2.right_stick_x > .5 ){
+                telemetry.addLine("11111111111111111111111");
                 if (c==0) {
-                    step = -2;
+                    telemetry.addLine("2222222222222222222222222");
                     if (step == -2) {
+                        telemetry.addLine("33333333333333333333333333");
+                        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setTargetPosition(0);
                         rightMotor.setTargetPosition(0);
-                        rightMotor.setPower(0);
-                        leftMotor.setPower(0);
-                        if ((leftMotor.getCurrentPosition() < 10) || (leftMotor.getCurrentPosition() > -10) && (rightMotor.getCurrentPosition() < 10) || (rightMotor.getCurrentPosition() > -10 )) {
-                            step = -2;
+                        rightMotor.setPower(.5);
+                        leftMotor.setPower(.5);
+                        if ((leftMotor.getCurrentPosition() < 10) && (leftMotor.getCurrentPosition() > -10) && (rightMotor.getCurrentPosition() < 10) && (rightMotor.getCurrentPosition() > -10 )) {
+                            telemetry.addLine("444444444444444444444444444444");
+                            step = 0;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -354,13 +359,16 @@ public class SixWheelArm_MMC extends LinearOpMode {
 
                     }
                     if (step == 0) {
+                        telemetry.addLine("5555555555555555555555555555");
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         leftMotor.setTargetPosition(600);
                         rightMotor.setTargetPosition(600);
                         rightMotor.setPower(.5);
                         leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < 605) || (leftMotor.getCurrentPosition() > 595) && (rightMotor.getCurrentPosition() < 605) || (rightMotor.getCurrentPosition() > 595 )) {
+                        if ((leftMotor.getCurrentPosition() < 605) && (leftMotor.getCurrentPosition() > 595) && (rightMotor.getCurrentPosition() < 605) && (rightMotor.getCurrentPosition() > 595 )) {
                             step = 1;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -374,7 +382,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         rightMotor.setTargetPosition(100);
                         rightMotor.setPower(.5);
                         leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < -95) || (leftMotor.getCurrentPosition() > -105) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
+                        if ((leftMotor.getCurrentPosition() < -95) && (leftMotor.getCurrentPosition() > -105) && (rightMotor.getCurrentPosition() < 105) && (rightMotor.getCurrentPosition() > 95 )) {
                             step = 2;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -388,7 +396,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         rightMotor.setTargetPosition(-300);
                         rightMotor.setPower(.5);
                         leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < 305) || (leftMotor.getCurrentPosition() > 295) && (rightMotor.getCurrentPosition() < 305) || (rightMotor.getCurrentPosition() > 295 )) {
+                        if ((leftMotor.getCurrentPosition() < -295) && (leftMotor.getCurrentPosition() > -305) && (rightMotor.getCurrentPosition() < -295) && (rightMotor.getCurrentPosition() > -305 )) {
                             step = 3;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -402,7 +410,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         rightMotor.setTargetPosition(-100);
                         rightMotor.setPower(.5);
                         leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < 105) || (leftMotor.getCurrentPosition() > 95) && (rightMotor.getCurrentPosition() < -95) || (rightMotor.getCurrentPosition() > -105 )) {
+                        if ((leftMotor.getCurrentPosition() < 105) && (leftMotor.getCurrentPosition() > 95) && (rightMotor.getCurrentPosition() < -95) && (rightMotor.getCurrentPosition() > -105 )) {
                             step = 4;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -416,15 +424,13 @@ public class SixWheelArm_MMC extends LinearOpMode {
                         rightMotor.setTargetPosition(-300);
                         rightMotor.setPower(.5);
                         leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < -295) || (leftMotor.getCurrentPosition() > -305) && (rightMotor.getCurrentPosition() < -295) || (rightMotor.getCurrentPosition() > -305 )) {
+                        if ((leftMotor.getCurrentPosition() < -295) && (leftMotor.getCurrentPosition() > -305) && (rightMotor.getCurrentPosition() < -295) && (rightMotor.getCurrentPosition() > -305 )) {
                             step = 5;
                             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         }
 
-                    }
-
-
+                        }
                     }
                 }
             }
