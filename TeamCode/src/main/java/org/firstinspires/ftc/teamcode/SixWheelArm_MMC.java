@@ -242,6 +242,15 @@ public class SixWheelArm_MMC extends LinearOpMode {
                 NewIdea = .5;
 
             }
+            if (gamepad2.right_bumper){
+                NewIdea = Math.abs (NewIdea )* -1;
+
+            }
+
+            if (gamepad2.left_bumper){
+                NewIdea = Math.abs (NewIdea);
+
+            }
             // driving 2
             tgtPower = this.gamepad2.left_stick_y;
             leftMotor.setPower(tgtPower * NewIdea);
@@ -249,9 +258,9 @@ public class SixWheelArm_MMC extends LinearOpMode {
             rightMotor.setPower(tgtPower2 * NewIdea);
 
             // left/right
-            if (Math.abs(gamepad2.right_stick_y) > 0.01 || Math.abs(gamepad2.left_stick_y) > 0.01) {
+            if ((Math.abs(gamepad2.right_stick_y) > 0.5) || (gamepad2.left_stick_y > -0.5)) {
                 stepLock = 1;
-                step = -2;
+                step = -1;
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -321,28 +330,15 @@ public class SixWheelArm_MMC extends LinearOpMode {
             // move right
             if (gamepad2.right_stick_x > .5) {
                 if (stepLock == 0) {
-                    if (step == -2) {
+
+                    if (step == -1) {
                         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setTargetPosition(0);
-                        rightMotor.setTargetPosition(0);
-                        rightMotor.setPower(.5);
-                        leftMotor.setPower(.5);
-                        if ((leftMotor.getCurrentPosition() < 10) && (leftMotor.getCurrentPosition() > -10) && (rightMotor.getCurrentPosition() < 10) && (rightMotor.getCurrentPosition() > -10)) {
-                            step = 0;
-                            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                        }
-
+                        step = 0;
                     }
                     if (step == 0) {
                         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                         leftMotor.setTargetPosition(600);
                         rightMotor.setTargetPosition(600);
                         rightMotor.setPower(.5);
