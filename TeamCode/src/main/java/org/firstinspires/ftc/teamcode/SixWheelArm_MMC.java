@@ -327,7 +327,7 @@ public class SixWheelArm_MMC extends LinearOpMode {
             }
 
 
-            // move right
+            // move right and or left like omni 
             if (gamepad2.right_stick_x > .5) {
                 if (stepLock == 0) {
 
